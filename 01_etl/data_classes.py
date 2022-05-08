@@ -1,6 +1,6 @@
 from typing import List, Optional
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, validator
 
 
 class Actors(BaseModel):
@@ -19,8 +19,12 @@ class Movies(BaseModel):
     title: str
     description: str = None
     genre: Optional[List] = Field(alias='genres')
-    director: Optional[List] = Field(alias='director', default=['Отсутствует'])
+    director: Optional[List] = Field(alias='director')
     writers: List[Writers] = Field(alias='writers')
     writers_names: Optional[List] = Field(alias='writers_names')
     actors: List[Actors] = Field(alias='actors')
     actors_names: Optional[List] = Field(alias='actors_names')
+
+    @validator('director')
+    def validate_director(cls, v):
+        return v or []
