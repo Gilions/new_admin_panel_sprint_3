@@ -1,0 +1,26 @@
+from typing import List, Optional
+
+from pydantic import BaseModel, Field
+
+
+class Actors(BaseModel):
+    id: str = Field(alias='person_id')
+    name: str = Field(alias='person_name')
+
+
+class Writers(BaseModel):
+    id: str = Field(alias='person_id')
+    name: str = Field(alias='person_name')
+
+
+class Movies(BaseModel):
+    id: str
+    imdb_rating: Optional[float] = Field(alias='rating', default=0)
+    title: str
+    description: str = None
+    genre: Optional[List] = Field(alias='genres')
+    director: Optional[List] = Field(alias='director', default=['Отсутствует'])
+    writers: List[Writers] = Field(alias='writers')
+    writers_names: Optional[List] = Field(alias='writers_names')
+    actors: List[Actors] = Field(alias='actors')
+    actors_names: Optional[List] = Field(alias='actors_names')
